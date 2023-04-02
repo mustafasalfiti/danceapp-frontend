@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+class Message {
+  String text;
+  DateTime dateTime;
+  bool isMe;
+
+  Message({required this.text, required this.dateTime, required this.isMe});
+}
+
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
 
@@ -9,6 +17,45 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _textEditingController = TextEditingController();
+  final List<Message> messages = [
+    Message(text: 'Hi, how are you?', dateTime: DateTime.now(), isMe: false),
+    Message(
+        text: 'I am good, thanks for asking!',
+        dateTime: DateTime.now(),
+        isMe: true),
+    Message(
+        text: 'What are you up to today?',
+        dateTime: DateTime.now(),
+        isMe: false),
+    Message(text: 'Hi, how are you?', dateTime: DateTime.now(), isMe: false),
+    Message(
+        text: 'I am good, thanks for asking!',
+        dateTime: DateTime.now(),
+        isMe: true),
+    Message(
+        text: 'What are you up to today?',
+        dateTime: DateTime.now(),
+        isMe: false),
+    Message(text: 'Hi, how are you?', dateTime: DateTime.now(), isMe: false),
+    Message(
+        text: 'I am good, thanks for asking!',
+        dateTime: DateTime.now(),
+        isMe: true),
+    Message(
+        text: 'What are you up to today?',
+        dateTime: DateTime.now(),
+        isMe: false),
+    Message(text: 'Hi, how are you?', dateTime: DateTime.now(), isMe: false),
+    Message(
+        text:
+            'I am good, thanks for askingAASDASdwasdawd ad awd asdadawd awd awd adasd !',
+        dateTime: DateTime.now(),
+        isMe: true),
+    Message(
+        text: 'What are you up to today?',
+        dateTime: DateTime.now(),
+        isMe: false),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +73,59 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: 20,
+              itemCount: messages.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text('Message $index'),
+                final message = messages[index].text;
+                final date = TimeOfDay.fromDateTime(messages[index].dateTime);
+                final isMe = messages[index].isMe;
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    crossAxisAlignment: isMe
+                        ? CrossAxisAlignment.end
+                        : CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width - 50,
+                        ),
+                        color: isMe == true
+                            ? const Color.fromARGB(199, 26, 209, 102)
+                            : const Color.fromARGB(102, 54, 76, 244),
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              !isMe ? 'Georgi Tass' : "Me",
+                              textAlign: TextAlign.left,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              message,
+                              textAlign: TextAlign.left,
+                            ),
+                            Container(
+                              color: Colors.green,
+                              child: Text(
+                                "${date.hour}:${date.minute}",
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
